@@ -4,10 +4,10 @@ Wordle Wizard is a web application that helps you conquer Wordle puzzles by prov
 
 ## Features
 
-- Interactive Wordle game interface with keyboard and tile grid
+- Interactive Wordle game interface with keyboard input
 - Smart word suggestions based on previous guesses and feedback
 - Real-time statistics showing possible solutions remaining
-- Simple and intuitive user interface
+- Simple and intuitive user interface with dark mode support
 - Compatible with the official Wordle game or any Wordle clone
 
 ## How It Works
