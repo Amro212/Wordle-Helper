@@ -3,7 +3,7 @@ import numpy as np
 from collections import Counter, defaultdict
 import re
 
-class WordleAI:
+class WordleWizard:
     def __init__(self, wordlist_path='wordlist.txt', word_length=5):
         self.word_length = word_length
         self.valid_words = self.load_words(wordlist_path, word_length)
@@ -171,5 +171,5 @@ class WordleAI:
             print(f"Possible solutions were: {', '.join(self.possible_answers)}")
 
 if __name__ == "__main__":
-    wordle_ai = WordleAI()
+    wordle_ai = WordleWizard()
     wordle_ai.play_interactive_game()

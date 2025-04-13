@@ -1,45 +1,45 @@
-from flask import Flask, render_template, request, jsonify  # Import necessary Flask modules
-import json  # Import JSON module for handling JSON data
-import re  # Import re module for regular expressions
-from main import WordleAI  # Import the WordleAI class from the main module
+from flask import Flask, render_template, request, jsonify  
+import json  
+import re  
+from main import WordleWizard  
 
-app = Flask(__name__)  # Create a new Flask application instance
-wordle_ai = WordleAI()  # Instantiate the WordleAI class
+app = Flask(__name__)  
+wordle_wizard = WordleWizard()  # instantiate the WordleWizard class
 
-@app.route('/')  # Define the route for the home page
+@app.route('/')  # define the route for the home page
 def index():
-    return render_template('index.html')  # Render the index.html template
+    return render_template('index.html')  # render the index.html template
 
-@app.route('/api/get_suggestion', methods=['POST'])  # Define the route for getting AI suggestions
+@app.route('/api/get_suggestion', methods=['POST'])  # define the route for getting word suggestions
 def get_suggestion():
     try:
-        data = request.json  # Get the JSON data from the request
-        feedback_history = data.get('feedbackHistory', [])  # Extract feedback history from the data, default to empty list if not present
+        data = request.json  # get the JSON data from the request
+        feedback_history = data.get('feedbackHistory', [])  # extract feedback history from the data, default to empty list if not present
         
-        # Reset AI if it's a new game
-        if not feedback_history:  # Check if feedback history is empty
-            wordle_ai.__init__()  # Reinitialize the WordleAI instance for a new game
+        # reset if it's a new game
+        if not feedback_history:  
+            wordle_wizard.__init__()  
         
-        # Apply feedback history
-        for entry in feedback_history:  # Iterate through each entry in the feedback history
-            guess = entry['word']  # Get the guessed word
-            feedback = entry['feedback']  # Get the feedback for the guessed word
+        # apply feedback history
+        for entry in feedback_history:  
+            guess = entry['word']  
+            feedback = entry['feedback']  
             
-            # Validate feedback format
+            # validate feedback format
             if not re.match(r'^[012]{5}$', feedback):
                 return jsonify({
                     'error': True,
                     'message': f"Invalid feedback pattern '{feedback}'. Must be 5 digits using only 0, 1, and 2."
                 }), 400
             
-            # Apply feedback (convert to lowercase)
-            wordle_ai.update_with_feedback(guess.lower(), feedback)  # Update the AI with the guess and feedback
+            # apply feedback (convert to lowercase)
+            wordle_wizard.update_with_feedback(guess.lower(), feedback)  
         
-        # Get the next suggestion
-        suggestion = wordle_ai.get_best_guess().upper()  # Get the best guess from the AI and convert it to uppercase
-        remaining_count = len(wordle_ai.possible_answers)  # Get the count of remaining possible answers
+        # get the next suggestion
+        suggestion = wordle_wizard.get_best_guess().upper()  
+        remaining_count = len(wordle_wizard.possible_answers)  
         
-        # Handle error case
+        # handle error case
         if suggestion == "ERROR":
             return jsonify({
                 'error': True,
@@ -49,10 +49,10 @@ def get_suggestion():
                 'possibleWords': []
             }), 400
         
-        # Get top possibilities (up to 5)
-        possible_words = [word.upper() for word in wordle_ai.possible_answers[:5]]  # Get the top 5 possible words and convert them to uppercase
+        # get top possibilities (up to 5)
+        possible_words = [word.upper() for word in wordle_wizard.possible_answers[:5]]  # get the top 5 possible words and convert them to uppercase
         
-        return jsonify({  # Return the suggestion and counts as a JSON response
+        return jsonify({ 
             'suggestion': suggestion,
             'remainingCount': remaining_count,
             'possibleWords': possible_words
@@ -67,5 +67,5 @@ def get_suggestion():
             'possibleWords': []
         }), 500
 
-if __name__ == '__main__':  # Check if the script is being run directly
-    app.run(debug=True)  # Run the Flask application in debug mode
+if __name__ == '__main__':  
+    app.run(debug=True)  # for debugging
