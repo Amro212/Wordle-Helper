@@ -24,7 +24,7 @@ ENV/
 .DS_Store
 Thumbs.db
 
-# Other common files to ignore
+# Other
 *.egg-info/
 dist/
 build/
