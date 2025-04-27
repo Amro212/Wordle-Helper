@@ -119,9 +119,9 @@ class WordleWizard:
         self.letter_frequencies = self.calculate_letter_frequencies()
         
     def play_interactive_game(self):
-        """Play an interactive Wordle game where the AI suggests words"""
+        """Play an interactive Wordle game where the Wizard suggests words"""
         print("########################################################")
-        print("Welcome to Wordle AI Assistant!")
+        print("Welcome to Wordle Wizard Assistant!")
         print("########################################################")
         print("For each guess, I'll suggest a word. After you try it in Wordle,")
         print("tell me the feedback using: '2' for green, '1' for yellow, '0' for gray.")
@@ -171,5 +171,5 @@ class WordleWizard:
             print(f"Possible solutions were: {', '.join(self.possible_answers)}")
 
 if __name__ == "__main__":
-    wordle_ai = WordleWizard()
-    wordle_ai.play_interactive_game()
+    wordle_wizard = WordleWizard()
+    wordle_wizard.play_interactive_game()
